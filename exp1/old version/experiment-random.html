@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
+    <script src="https://unpkg.com/plugin-html-multi-slider-response@1.0.0/plugin-html-multi-slider-response.js"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .jspsych-html-slider-response-wrapper {
+        margin-top: 10px; 
+      }
+      .slider-labels {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-top: -10px; /* vertical position */
+      }
+      .slider-labels span {
+        transform: translateX(-18%);
+        font-size: 14px;
+      }
+      .jspsych-btn {
+        margin-top: -130px; /* Adjust this value to move the button up or down */
+      }
+    </style>
+  </head>
+  <body></body>
+  <script>
+
+    /* initialize jsPsych */
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+
+    /* create timeline */
+    var timeline = [];
+
+    // First set of stimuli-cool/cold/freezing
+    var stimuli1 = [
+    'https://thumbs2.imgbox.com/90/28/EsugwfPb_t.jpg',
+    'https://thumbs2.imgbox.com/9d/0d/3w6zlBjE_t.jpg',
+    'https://thumbs2.imgbox.com/d3/20/PfpLQp5E_t.jpg',
+    'https://thumbs2.imgbox.com/c5/e2/CzOI1Mwo_t.jpg',
+    'https://thumbs2.imgbox.com/7a/72/Iz4R3DH9_t.jpg',
+    'https://thumbs2.imgbox.com/df/76/OsmHGqju_t.jpg',
+    'https://thumbs2.imgbox.com/d1/19/tVdffzst_t.jpg',
+    'https://thumbs2.imgbox.com/1b/ef/LgzqKpeY_t.jpg',
+    'https://thumbs2.imgbox.com/b3/16/t8nQQgrh_t.jpg',
+
+    ];
+
+    // Second set of stimuli-damaged/broken
+    var stimuli2 = [
+      'https://thumbs2.imgbox.com/77/6d/fS3RAVh8_t.jpg',
+      'https://thumbs2.imgbox.com/e6/a4/2n8f5tob_t.jpg',
+      'https://thumbs2.imgbox.com/c6/6b/QukeDIvI_t.jpg',
+      'https://thumbs2.imgbox.com/a1/8b/P4GEgDdq_t.jpg',
+      'https://thumbs2.imgbox.com/a1/a2/4wgHTSHv_t.jpg',
+      'https://thumbs2.imgbox.com/43/e8/wrUmXsC3_t.jpg',
+      'https://thumbs2.imgbox.com/67/d5/XnJvZkti_t.jpg',
+      'https://thumbs2.imgbox.com/0a/aa/2owlwDg7_t.jpg',
+      'https://thumbs2.imgbox.com/cc/6a/7bqfrVWK_t.jpg'
+    ];
+
+    // Third set of stimuli-raniy/pouring
+    var stimuli3 = [
+      'https://thumbs2.imgbox.com/48/03/o5kVJc7F_t.jpg',
+      'https://thumbs2.imgbox.com/2f/58/qlYizodE_t.jpg',
+      'https://thumbs2.imgbox.com/fe/e5/6Cdpt8JR_t.jpg',
+      'https://thumbs2.imgbox.com/1b/58/FF7708n2_t.jpg',
+      'https://thumbs2.imgbox.com/c3/3d/KHeoL9Yz_t.jpg',
+      'https://thumbs2.imgbox.com/00/ee/nOBlzfIO_t.jpg',
+      'https://thumbs2.imgbox.com/ab/29/4AyNk3ui_t.jpg',
+      'https://thumbs2.imgbox.com/ed/7c/fS1vNBRw_t.jpg',
+      'https://thumbs2.imgbox.com/77/ce/7Y3nMkFq_t.jpg'
+    ];
+
+    // Preload images for all three sets
+    var preload = {
+      type: jsPsychPreload,
+      images: stimuli1.concat(stimuli2).concat(stimuli3)
+    };
+    
+    timeline.push(preload);
+
+    // Shuffle the stimuli arrays
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    stimuli1 = shuffle(stimuli1);
+    stimuli2 = shuffle(stimuli2);
+    stimuli3 = shuffle(stimuli3);
+
+    // Create a function to generate the test object
+    function createTest(stimulus, question, slider_labels, num_sliders) {
+      return {
+        type: jsPsychHtmlMultiSliderResponse,
+        stimulus: '<img src="' + stimulus + '" style="display: block; margin: 0 auto; width: 450px; height: auto;"><p>' + question + '</p>',
+        num_sliders: num_sliders,
+        slider_labels: slider_labels,
+        force_total: 100,
+        button_label: 'Continue',
+        labels: [],
+        require_movement: true,
+        on_load: function() {
+          document.querySelectorAll('.jspsych-html-slider-response-container').forEach((container, index) => {
+            var labels = ['0', '50', '100'];
+            var labelDiv = document.createElement('div');
+            labelDiv.className = 'slider-labels';
+            labels.forEach(function(label, i) {
+              var labelSpan = document.createElement('span');
+              labelSpan.innerHTML = label;
+              labelSpan.style.position = 'absolute';
+              labelSpan.style.left = `${i * 21 + 44}%`;
+              labelDiv.appendChild(labelSpan);
+            });
+            container.appendChild(labelDiv);
+          });
+        }
+      };
+    }
+
+      /* define welcome message trial */
+      var welcome = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: "Welcome to the experiment. Press any key to begin."
+    };
+    timeline.push(welcome);
+
+  
+  
+    // Function to add stimuli to the timeline
+    function addStimuliToTimeline(stimuli, question, slider_labels, num_sliders) {
+      stimuli.forEach(function(stimulus) {
+        timeline.push(createTest(stimulus, question, slider_labels, num_sliders));
+      });
+    }
+
+    // Add stimuli sets to the timeline with appropriate questions, slider labels, and number of sliders
+    addStimuliToTimeline(stimuli1, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is cool today.', 'It is cold today.', 'It is freezing today.', '<em>something else<em>'], 4);
+    addStimuliToTimeline(stimuli2, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is damaged.', 'It is broken.', '<em>something else<em>'], 3);
+    addStimuliToTimeline(stimuli3, 'How likely do you think it is that the woman will respond with each of the following sentences?', ['It is rainy today.', 'It is pouring today.', '<em>something else<em>'], 3);
+
+    // Repeat stimuli sets
+    addStimuliToTimeline(stimuli1, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is cool today.', 'It is cold today.', 'It is freezing today.', '<em>something else<em>'], 4);
+    addStimuliToTimeline(stimuli2, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is damaged.', 'It is broken.', '<em>something else<em>'], 3);
+    addStimuliToTimeline(stimuli3, 'How likely do you think it is that the woman will respond with each of the following sentences?', ['It is rainy today.', 'It is pouring today.', '<em>something else<em>'], 3);
+
+    /* start the experiment */
+    jsPsych.run(timeline);
+  </script>
+</html>

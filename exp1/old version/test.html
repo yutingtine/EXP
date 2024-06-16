@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <script src="jspsych/plugin-html-multi-slider-response.js"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body></body>
+  <script>
+
+    /* initialize jsPsych */
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+
+    /* create timeline */
+    var timeline = [];
+
+    /*test*/
+    var tests={
+        type: jsPsychHtmlMultiSliderResponse,
+        stimulus: '<p>How likely do you think it is that the man will respond with each of the following sentences?</p>',
+        num_sliders: 3,
+        slider_labels: ['A', 'B', 'something else'],
+        force_total: 100,
+        button_label: 'Next',
+        labels: ['0', '50', '100'],
+        require_movement: true
+    };
+    timeline.push(tests)
+     /* start the experiment */
+     jsPsych.run(timeline);
+
+
+  </script>
+</html>
