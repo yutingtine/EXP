@@ -168,15 +168,15 @@ const consent1 = {
 
 timeline.push(consent1);
 
-// // Add instructions before the stimuli
-// var instructions = {
-//   type: jsPsychHtmlButtonResponse,
-//   stimulus: "In this experiment, you will see several scenes and answer questions about them. On each slide, you will see a picture and several utterances. Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.<br>When you're ready to begin, please click the button.",
-//   choices: ['Continue'],
-//   button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-// };
+// Add instructions before the stimuli
+var instructions = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: "On each slide, you will see a picture and several utterances. Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.<br>When you're ready to begin, please click the button.",
+  choices: ['Continue'],
+  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+};
 
-// timeline.push(instructions);
+timeline.push(instructions);
 
 // Add back1 before stimuli1
 const back1 = {
