@@ -6,7 +6,7 @@
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.3"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.3"></script> -->
     <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
     
     <!-- <script src="https://unpkg.com/plugin-html-multi-slider-response@1.0.0/plugin-html-multi-slider-response.js"></script> -->
@@ -159,19 +159,19 @@ const consent = {
 
 timeline.push(consent);
 
-const consent1 = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: "In this experiment, you will answer several picture-sentence-matching questions. In each question, you will see a picture and several utterances. Please move the sliders for each utterance to represent its possibility of being said in the picture. Make sure the sum of possibilities is 100. Try to respond as quickly and accurately as you can.<br>When you're ready to begin, please click the button.",
-  choices: ['Continue'],
-  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-};
+// const consent1 = {
+//   type: jsPsychHtmlButtonResponse,
+//   stimulus: "In this experiment, you will answer several picture-sentence-matching questions. In each question, you will see a picture and several utterances. Please move the sliders for each utterance to represent its possibility of being said in the picture. Make sure the sum of possibilities is 100. Try to respond as quickly and accurately as you can.<br>When you're ready to begin, please click the button.",
+//   choices: ['Continue'],
+//   button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+// };
 
-timeline.push(consent1);
+// timeline.push(consent1);
 
 // Add instructions before the stimuli
 var instructions = {
   type: jsPsychHtmlButtonResponse,
-  stimulus: "On each slide, you will see a picture and several utterances. Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.<br>When you're ready to begin, please click the button.",
+  stimulus: "In this experiment, you will see several scenes and answer questions about them. <br>On each slide, you will see a picture and several utterances. <br>Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.<br>When you're ready to begin, please click the button.",
   choices: ['Continue'],
   button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
 };
