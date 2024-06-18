@@ -8,255 +8,257 @@
     <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
     <script src="jspsych/plugin-fullscreen.js"></script>
     <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
-    <script src="plugin/plugin-html-multi-slider-response.js"> </script>
+    <script src="plugin/plugin-html-multi-slider-response.js"></script>
+    <script src="jspsych/plugin-survey-text.js"></script>
     <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
-        body {
-      margin: 0;
-      padding: 0;
-    }
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
-    .jspsych-html-slider-response-wrapper {
-      margin-top: 10px; 
-    }
+      .jspsych-html-slider-response-wrapper {
+        margin-top: 10px;
+      }
 
-    .slider-labels {
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-top: -10px; /* vertical position */
-    }
+      .slider-labels {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-top: -10px; /* vertical position */
+      }
 
-    .slider-labels span {
-      transform: translateX(-18%);
-      font-size: 14px;
-    }
+      .slider-labels span {
+        transform: translateX(-18%);
+        font-size: 14px;
+      }
 
-    /* Adjust button position */
-    .jspsych-btn {
-      position: absolute; /* Make the position absolute */
-      bottom: 30px; /* Position it from the bottom */
-      left: 50%; /* Center horizontally */
-      transform: translateX(-50%); /* Center alignment adjustment */
-    }
-
-    
+      /* Adjust button position */
+      .jspsych-btn {
+        position: absolute; /* Make the position absolute */
+        bottom: 30px; /* Position it from the bottom */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Center alignment adjustment */
+      }
     </style>
   </head>
   <body></body>
   <script>
-
     /* initialize jsPsych */
     var jsPsych = initJsPsych({
+      show_progress_bar: true,
+      auto_update_progress_bar: false, // Disable automatic progress bar updates
       on_finish: function() {
         jsPsych.data.displayData();
       }
     });
 
-/* create timeline */
-var timeline = [];
+    var n_trials = 54; // Define the total number of trials
 
-// First set of stimuli-cool/cold/freezing
-var stimuli1 = [
-  'pic_new/pic_cool/Slide1.png',
-  'pic_new/pic_cool/Slide2.png',
-  'pic_new/pic_cool/Slide3.png',
-  'pic_new/pic_cool/Slide4.png',
-  'pic_new/pic_cool/Slide5.png',
-  'pic_new/pic_cool/Slide6.png',
-  'pic_new/pic_cool/Slide7.png',
-  'pic_new/pic_cool/Slide8.png',
-  'pic_new/pic_cool/Slide9.png'
-];
+    /* create timeline */
+    var timeline = [];
 
+    // First set of stimuli-cool/cold/freezing
+    var stimuli1 = [
+      'pic_new/pic_cool/Slide1.png',
+      'pic_new/pic_cool/Slide2.png',
+      'pic_new/pic_cool/Slide3.png',
+      'pic_new/pic_cool/Slide4.png',
+      'pic_new/pic_cool/Slide5.png',
+      'pic_new/pic_cool/Slide6.png',
+      'pic_new/pic_cool/Slide7.png',
+      'pic_new/pic_cool/Slide8.png',
+      'pic_new/pic_cool/Slide9.png'
+    ];
 
-// Second set of stimuli-damaged/broken
-var stimuli2 = [
-  'pic_new/pic_broken/Slide1.png',
-  'pic_new/pic_broken/Slide2.png',
-  'pic_new/pic_broken/Slide3.png',
-  'pic_new/pic_broken/Slide4.png',
-  'pic_new/pic_broken/Slide5.png',
-  'pic_new/pic_broken/Slide6.png',
-  'pic_new/pic_broken/Slide7.png',
-  'pic_new/pic_broken/Slide8.png',
-  'pic_new/pic_broken/Slide9.png'
-];
+    // Second set of stimuli-damaged/broken
+    var stimuli2 = [
+      'pic_new/pic_broken/Slide1.png',
+      'pic_new/pic_broken/Slide2.png',
+      'pic_new/pic_broken/Slide3.png',
+      'pic_new/pic_broken/Slide4.png',
+      'pic_new/pic_broken/Slide5.png',
+      'pic_new/pic_broken/Slide6.png',
+      'pic_new/pic_broken/Slide7.png',
+      'pic_new/pic_broken/Slide8.png',
+      'pic_new/pic_broken/Slide9.png'
+    ];
 
-// Third set of stimuli-rainy/pouring
-var stimuli3 = [
-  'pic_new/pic_rainy/Slide1.png',
-  'pic_new/pic_rainy/Slide2.png',
-  'pic_new/pic_rainy/Slide3.png',
-  'pic_new/pic_rainy/Slide4.png',
-  'pic_new/pic_rainy/Slide5.png',
-  'pic_new/pic_rainy/Slide6.png',
-  'pic_new/pic_rainy/Slide7.png',
-  'pic_new/pic_rainy/Slide8.png',
-  'pic_new/pic_rainy/Slide9.png'
-];
+    // Third set of stimuli-rainy/pouring
+    var stimuli3 = [
+      'pic_new/pic_rainy/Slide1.png',
+      'pic_new/pic_rainy/Slide2.png',
+      'pic_new/pic_rainy/Slide3.png',
+      'pic_new/pic_rainy/Slide4.png',
+      'pic_new/pic_rainy/Slide5.png',
+      'pic_new/pic_rainy/Slide6.png',
+      'pic_new/pic_rainy/Slide7.png',
+      'pic_new/pic_rainy/Slide8.png',
+      'pic_new/pic_rainy/Slide9.png'
+    ];
 
+    // Preload images for all three sets
+    var preload = {
+      type: jsPsychPreload,
+      images: stimuli1.concat(stimuli2).concat(stimuli3)
+    };
 
-// Preload images for all three sets
-var preload = {
-  type: jsPsychPreload,
-  images: stimuli1.concat(stimuli2).concat(stimuli3)
-};
+    timeline.push(preload);
 
-timeline.push(preload);
+    // Shuffle the stimuli arrays
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
 
-// Shuffle the stimuli arrays
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+    stimuli1 = shuffle(stimuli1);
+    stimuli2 = shuffle(stimuli2);
+    stimuli3 = shuffle(stimuli3);
 
-stimuli1 = shuffle(stimuli1);
-stimuli2 = shuffle(stimuli2);
-stimuli3 = shuffle(stimuli3);
+    // Create a function to generate the test object
+    function createTest(stimulus, question, slider_labels, num_sliders) {
+      return {
+        type: jsPsychHtmlMultiSliderResponse,
+        stimulus: '<div style="margin-top: -110px;"><img src="' + stimulus + '" style="display: block; margin: -20px auto; max-width: 750px; height: auto;"><p>' + question + '</p></div>',
+        num_sliders: num_sliders,
+        slider_labels: slider_labels,
+        force_total: 100,
+        button_label: 'Continue',
+        labels: [],
+        require_movement: true,
+        on_finish: function() {
+          // At the end of each trial, update the progress bar
+          var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+          jsPsych.setProgressBar(curr_progress_bar_value + (1 / n_trials));
+        },
+        on_load: function() {
+          document.querySelectorAll('.jspsych-html-slider-response-container').forEach((container, index) => {
+            var labels = ['0', '50', '100'];
+            var labelDiv = document.createElement('div');
+            labelDiv.className = 'slider-labels';
+            labels.forEach(function(label, i) {
+              var labelSpan = document.createElement('span');
+              labelSpan.innerHTML = label;
+              labelSpan.style.position = 'absolute';
+              labelSpan.style.left = `${i * 21.8 + 42.8}%`;
+              labelDiv.appendChild(labelSpan);
+            });
+            container.appendChild(labelDiv);
+          });
+        }
+      };
+    }
 
-// Create a function to generate the test object
-function createTest(stimulus, question, slider_labels, num_sliders) {
-  return {
-    type: jsPsychHtmlMultiSliderResponse,
-    stimulus: '<div style="margin-top: -110px;"><img src="' + stimulus + '" style="display: block; margin: -20px auto; max-width: 750px; height: auto;"><p>' + question + '</p></div>',
-    // stimulus: '<img src="' + stimulus + '" style="display: block; margin: -25px auto; width: 600px; height: auto;"><p>' + question + '</p>',
-    num_sliders: num_sliders,
-    slider_labels: slider_labels,
-    force_total: 100,
-    button_label: 'Continue',
-    labels: [],
-    require_movement: true,
-    on_load: function() {
-      document.querySelectorAll('.jspsych-html-slider-response-container').forEach((container, index) => {
-        var labels = ['0', '50', '100'];
-        var labelDiv = document.createElement('div');
-        labelDiv.className = 'slider-labels';
-        labels.forEach(function(label, i) {
-          var labelSpan = document.createElement('span');
-          labelSpan.innerHTML = label;
-          labelSpan.style.position = 'absolute';
-          labelSpan.style.left = `${i * 21.8 + 42.8}%`;
-          labelDiv.appendChild(labelSpan);
-        });
-        container.appendChild(labelDiv);
+    /* define welcome message trial */
+    var welcome = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: "Welcome to the experiment. Press any key to begin."
+    };
+    timeline.push(welcome);
+
+    // Define consent form
+    const consent = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<strong>LEGAL INFORMATION:</strong><br>We invite you to participate in a research study on language comprehension.<br><br> Your experimenter will ask you to do a linguistic task such as matching pictures with sentences.<br><br>There are no risks or benefits of any kind involved in this study.<br><br>You will be paid for your participation at the posted rate.<br><br>If you have read this form and have decided to participate in this experiment, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. You have the right to refuse to do particular tasks. Your individual privacy will be maintained in all published and written data resulting from the study. You may print this form for your records.<br><br><strong>CONTACT INFORMATION:</strong><br>If you have any questions, concerns or complaints about this research study, its procedures, risks and benefits, you should contact Yuting Yuan +44 7729 511929<br><br>If you agree to participate, please proceed to the study tasks.</p>',
+      choices: ['Continue'],
+      button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+    };
+
+    timeline.push(consent);
+
+    // Add instructions before the stimuli
+    var instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "In this experiment, you will see several scenes and answer questions about them. <br>On each slide, you will see a picture and several utterances. <br>Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br><br><strong>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.</strong><br><br>When you're ready to begin, please click the button.",
+      choices: ['Continue'],
+      button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+    };
+
+    timeline.push(instructions);
+
+    // Enter fullscreen mode
+    const enter_fullscreen = {
+      type: jsPsychFullscreen,
+      fullscreen_mode: true
+    }
+
+    timeline.push(enter_fullscreen);
+
+    // Add back1 before stimuli1
+    const back1 = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<p>The experiment is divided into three parts. In the first part, you will see a similar scene presented below.</p> In this scene, Albert just woke up. Without opening with eyes, he asked George, "What is the weather like today?" <br>George looked outside and, by seeing how the boy was dressed, gave him the answer.<br><img src="pic_new/pic_cool/Slide1.png" width="750" height="auto" alt="Example Scene"><p>If you have understood the example scene, please click the button, and the first task will begin.',
+      choices: ['Continue'],
+      button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+    };
+
+    timeline.push(back1);
+
+    // Function to add stimuli to the timeline
+    function addStimuliToTimeline(stimuli, question, slider_labels, num_sliders) {
+      stimuli.forEach(function(stimulus) {
+        timeline.push(createTest(stimulus, question, slider_labels, num_sliders));
       });
     }
-  };
-}
 
-/* define welcome message trial */
-var welcome = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: "Welcome to the experiment. Press any key to begin."
-};
-timeline.push(welcome);
+    // Add stimuli sets to the timeline with appropriate questions, slider labels, and number of sliders
+    addStimuliToTimeline(stimuli1, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is cool today.', 'It is cold today.', 'It is freezing today.', '<em>something else<em>'], 4);
+    addStimuliToTimeline(stimuli1, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is cool today.', 'It is cold today.', 'It is freezing today.', '<em>something else<em>'], 4);
 
-// Define consent form
-const consent = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: '<strong>LEGAL INFORMATION:</strong><br>We invite you to participate in a research study on language comprehension.<br><br> Your experimenter will ask you to do a linguistic task such as matching pictures with sentences.<br><br>There are no risks or benefits of any kind involved in this study.<br><br>You will be paid for your participation at the posted rate.<br><br>If you have read this form and have decided to participate in this experiment, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. You have the right to refuse to do particular tasks. Your individual privacy will be maintained in all published and written data resulting from the study. You may print this form for your records.<br><br><strong>CONTACT INFORMATION:</strong><br>If you have any questions, concerns or complaints about this research study, its procedures, risks and benefits, you should contact Yuting Yuan +44 7729 511929<br><br>If you agree to participate, please proceed to the study tasks.</p>',
-  choices: ['Continue'],
-  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-};
+    // Add back2 before stimuli2
+    const back2 = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<br>Jonas and Kevin were walking outside. A boy riding a bike sped by and hit Jonas. <br>His phone fell to the ground. Jonas picked up his phone, looked at it, and said nothing.<br> Kevin leaned over to see what happened and asked "What happened to your phone?" Jonas replied something. <br><img src="pic_new/pic_broken/Slide4.png" width="750" height="auto" alt="Example Scene"><p>If you have understood the example scene, please click the button, and the second task will begin.</p>',
+      choices: ['Continue'],
+      button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+    };
 
-timeline.push(consent);
+    timeline.push(back2);
 
-// const consent1 = {
-//   type: jsPsychHtmlButtonResponse,
-//   stimulus: "In this experiment, you will answer several picture-sentence-matching questions. In each question, you will see a picture and several utterances. Please move the sliders for each utterance to represent its possibility of being said in the picture. Make sure the sum of possibilities is 100. Try to respond as quickly and accurately as you can.<br>When you're ready to begin, please click the button.",
-//   choices: ['Continue'],
-//   button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-// };
+    addStimuliToTimeline(stimuli2, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is damaged.', 'It is broken.', '<em>something else<em>'], 3);
+    addStimuliToTimeline(stimuli2, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is damaged.', 'It is broken.', '<em>something else<em>'], 3);
 
-// timeline.push(consent1);
+    // Add back3 before stimuli3
+    const back3 = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '<br>Sarah came to London for a trip. When she arrived at the hotel, she discovered that the room she booked had no windows.<br>Unfortunately, no other rooms were available, so she had to stay there. <br>The next morning before going out, she wanted to know what the weather was like outside. <br>She called the hotel front desk and asked, "What is the weather like today?" The front desk replied something.<br><img src="pic_new/pic_rainy/Slide7.png" width="750" height="auto" alt="Example Scene"><p>If you have understood the example scene, please click the button, and the third task will begin.</p>',
+      choices: ['Continue'],
+      button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
+    };
 
-// Add instructions before the stimuli
-var instructions = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: "In this experiment, you will see several scenes and answer questions about them. <br>On each slide, you will see a picture and several utterances. <br>Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br><br><strong>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.</strong><br><br>When you're ready to begin, please click the button.",
-  choices: ['Continue'],
-  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-};
+    timeline.push(back3);
 
-timeline.push(instructions);
+    addStimuliToTimeline(stimuli3, 'How likely do you think it is that the woman will respond with each of the following sentences?', ['It is rainy today.', 'It is pouring today.', '<em>something else<em>'], 3);
+    addStimuliToTimeline(stimuli3, 'How likely do you think it is that the woman will respond with each of the following sentences?', ['It is rainy today.', 'It is pouring today.', '<em>something else<em>'], 3);
 
-// Enter fullscreen mode
-const enter_fullscreen = {
-    type: jsPsychFullscreen,
-    fullscreen_mode: true
-}
+    var Survey = {
+      type: jsPsychSurveyText,
+      questions: [
+        {prompt: 'If you encountered any technical difficulties, found anything odd, or if you have any other comments about the experiment that you would like to share with us, please type them in the box below:', rows: 5}
+      ]
+    }
+    timeline.push(Survey);
 
-timeline.push(enter_fullscreen);
+    const end_of_experiment = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p>Thanks for participation. This is the end of language experiment.<br>Please press the space bar to exit.</p>',
+      trial_duration: null,
+      choices: [' ']
+    };
 
-// Add back1 before stimuli1
-const back1 = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: '<p>The experiment is divided into three parts. In the first part, you will see a similar scene presented below.</p> In this scene, Albert just woke up. Without opening with eyes, he asked George, "What is the weather like today?" <br>George looked outside and, by seeing how the boy was dressed, gave him the answer.<br><img src="pic_new/pic_cool/Slide1.png" width="750" height="auto" alt="Example Scene"><p>If you have understood the example scene, please click the button, and the first task will begin.',
-  choices: ['Continue'],
-  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-};
+    timeline.push(end_of_experiment);
 
-timeline.push(back1);
+    //Exit fullscreen mode
+    const exit_fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: false
+    }
 
-// Function to add stimuli to the timeline
-function addStimuliToTimeline(stimuli, question, slider_labels, num_sliders) {
-  stimuli.forEach(function(stimulus) {
-    timeline.push(createTest(stimulus, question, slider_labels, num_sliders));
-  });
-}
-
-// Add stimuli sets to the timeline with appropriate questions, slider labels, and number of sliders
-addStimuliToTimeline(stimuli1, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is cool today.', 'It is cold today.', 'It is freezing today.', '<em>something else<em>'], 4);
-addStimuliToTimeline(stimuli1, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is cool today.', 'It is cold today.', 'It is freezing today.', '<em>something else<em>'], 4);
-
-// Add back2 before stimuli2
-const back2 = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: '<br>Jonas and Kevin were walking outside. A boy riding a bike sped by and hit Jonas. <br>His phone fell to the ground. Jonas picked up his phone, looked at it, and said nothing.<br> Kevin leaned over to see what happened and asked "What happened to your phone?" Jonas replied something. <br><img src="pic_new/pic_broken/Slide4.png" width="750" height="auto" alt="Example Scene"><p>If you have understood the example scene, please click the button, and the second task will begin.</p>',
-  choices: ['Continue'],
-  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-};
-
-timeline.push(back2);
-
-addStimuliToTimeline(stimuli2, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is damaged.', 'It is broken.', '<em>something else<em>'], 3);
-addStimuliToTimeline(stimuli2, 'How likely do you think it is that the man will respond with each of the following sentences?', ['It is damaged.', 'It is broken.', '<em>something else<em>'], 3);
-
-// Add back3 before stimuli3
-const back3 = {
-  type: jsPsychHtmlButtonResponse,
-  stimulus: '<br>Sarah came to London for a trip. When she arrived at the hotel, she discovered that the room she booked had no windows.<br>Unfortunately, no other rooms were available, so she had to stay there. <br>The next morning before going out, she wanted to know what the weather was like outside. <br>She called the hotel front desk and asked, "What is the weather like today?" The front desk replied something.<br><img src="pic_new/pic_rainy/Slide7.png" width="750" height="auto" alt="Example Scene"><p>If you have understood the example scene, please click the button, and the third task will begin.</p>',
-  choices: ['Continue'],
-  button_html: '<button class="jspsych-btn" style="margin-top: 20px;">%choice%</button>'
-};
-
-timeline.push(back3);
-
-
-addStimuliToTimeline(stimuli3, 'How likely do you think it is that the woman will respond with each of the following sentences?', ['It is rainy today.', 'It is pouring today.', '<em>something else<em>'], 3);
-addStimuliToTimeline(stimuli3, 'How likely do you think it is that the woman will respond with each of the following sentences?', ['It is rainy today.', 'It is pouring today.', '<em>something else<em>'], 3);
-
-const end_of_experiment = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: '<p>Thanks for participation. This is the end of language experiment.<br>Please press the space bar to exit.</p>',
-  trial_duration: null,
-  choices: [' ']
-};
-
-timeline.push(end_of_experiment);
-
-//Exit fullscreen mode
-const exit_fullscreen = {
-    type: jsPsychFullscreen,
-    fullscreen_mode: false
-}
-
-timeline.push(exit_fullscreen);
+    timeline.push(exit_fullscreen);
 
     /* start the experiment */
     jsPsych.run(timeline);
