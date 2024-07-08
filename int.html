@@ -115,10 +115,9 @@ var timeline = [];
   timeline.push(consent2);
 
 
-// the utterance_picture_matching_task to calculate P(w|u) [trials of interpretation]（改 text instruction）
 const utterance_picture_matching_task = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: "In this experiment, you will see several scenes and answer questions about them. On each slide, you will see a picture and several utterances. Please move the sliders for each utterance to indicate how likely you think it is that the speaker would say this.<br>Note: The ratings must add up to 100 and the sliders will automatically snap back if you try to assign more than 100 points.<br>The experiment is conducted in fullscreen mode. When you're ready to begin, please press the space bar.",
+    stimulus: "In this experiment, you will see several scenes and answer questions about them. On each slide, you will see one scene and several relevant images. Please distribute 10 coins across the likely images based on the conversation in the scene.<br>Note: You are not required to assign coins to every image, so please distribute the coins only among the likely images.<br>The experiment is conducted in fullscreen mode. When you're ready to begin, please press the space bar.",
     choices: [" "]
 }
 
